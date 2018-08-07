@@ -29,7 +29,7 @@
                     v: [
                         "a", "e"
                     ]
-                }, 
+                },
                 { // 2 
                     a: [
                         "... I can spend alone time with someone I love - just us.",
@@ -313,7 +313,7 @@
 
             function fillTestQuestion(entry) {
                 if (typeof entry.q === "string")
-                     qTest.text(entry.q);
+                    qTest.text(entry.q);
                 entry.a.forEach(function (a, i) {
                     options[i].text(a);
                 });
@@ -331,6 +331,7 @@
                 options.forEach(function (val) {
                     disableChoice(val);
                 });
+                buttonProceed.addClass("disabled");
                 chosen = -1;
             }
 
@@ -338,22 +339,24 @@
                 currentItem++;
                 if (fade) {
                     testBlock.transition({
-                            animation: "fade",
-                            duration: "350ms",
-                            onComplete: function() {
-                                if (currentItem === test.length - 1) {
-                                    buttonProceed.text("Finish test");
-                                    buttonProceed.attr("data-test-final", "1");
-                                }
-                                fillTestQuestion(test[currentItem]);
-                                testBlock.transition("fade", "350ms");
+                        animation: "fade",
+                        duration: "350ms",
+                        onComplete: function () {
+                            if (currentItem === test.length - 1) {
+                                buttonProceed.text("Finish test");
+                                buttonProceed.attr("data-test-final", "1");
                             }
-                        })
+                            disableAll();
+                            fillTestQuestion(test[currentItem]);
+                            testBlock.transition("fade", "350ms");
+                        }
+                    })
                 } else {
                     if (currentItem === test.length - 1) {
                         buttonProceed.attr("data-test-final", "1");
                         buttonProceed.text("Finish test");
                     }
+                    disableAll();
                     fillTestQuestion(test[currentItem]);
                 }
             }
@@ -415,25 +418,32 @@
 </head>
 
 <body>
-    <h1 class="ui center aligned huge header" style="margin-top: 3em; margin-bottom: 1em">5 Languages of Love homemade test</h1>
+    <h1 class="ui center aligned huge header" style="margin-top: 3em; margin-bottom: 1em">"5 Languages of Love" homemade test</h1>
     <div class="ui container">
         <div class="ui horizontal divider" style="margin-bottom: 1em">⚝</div>
-        <div class="ui icon info message">
+        <div class="ui icon warning message">
             <i class="close icon"></i>
-            <i class="ui question circle outline icon"></i>
+            <i class="ui bug icon"></i>
             <div class="content">
                 <div class="header">
-                    What is this about?
+                    This is a beta version of site.
                 </div>
                 <div class="content">
-                    This test will reveal your personal love language affiliation.
-                    <br /> You will get 30 questions with two corresponding best-fit answer options.
-                    <br /> After all questions completed, you will see your results.
+                    You may experience some unwanted bugs, typos or other usual for beta versions stuff. <br />
+                    Thank you for your understanding.
                 </div>
             </div>
         </div>
-        <div id="beginSegment" class="ui basic segment">
-            <div class="ui center aligned container">
+        <div id="beginSegment" class="ui raised segment">
+            <div class="ui container">
+                <h2 class="ui header">What is this about?</h2>
+                <p style="font-size: 1.2em">
+                    This test will reveal your personal love language affiliation.
+                    You will get 30 questions with two corresponding best-fit answer options. 
+                    After all questions completed, you will see your results.
+                </p>
+            </div>
+            <div class="ui center aligned container" style="margin-top: 2em">
                 <button id="beginTest" class="ui primary huge button">Begin test</button>
             </div>
         </div>
@@ -457,6 +467,10 @@
                     </button>
                 </div>
             </div>
+        </div>
+        <div id="resultBlock" class="ui resultblock raised segment">
+            <h2 class="ui header left aligned">Congratulations! Your type: PETOOX</h2>
+
         </div>
     </div>
 </body>
