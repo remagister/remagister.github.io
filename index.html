@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
+    <title>5Languages</title>
+
+    <script>
+        window.addEventListener("load", function () {
+            $(".message .close")
+                .on("click", function () {
+                    $(this).closest(".message").transition("fade");
+                });
+
+            $("#beginTest")
+                .on("click", function () {
+                    $("#beginSegment")
+                        .transition("fade");
+                });
+            $(".testoption")
+                .on("click", function() {
+                    let t = $(this);
+                    if (t.hasClass("inverted")) t.removeClass("olive inverted");
+                    else t.addClass("olive inverted");
+                });
+
+        });
+    </script>
+</head>
+
+<body>
+    <h1 class="ui center aligned huge header" style="margin-top: 3em">5 Languages of Love homemade test</h1>
+    <div class="ui container">
+        <div class="ui horizontal divider">⚝</div>
+        <div class="ui icon info message">
+            <i class="close icon"></i>
+            <i class="ui question circle outline icon"></i>
+            <div class="content">
+                <div class="header">
+                    What is this about?
+                </div>
+                <div class="content">
+                    This test will reveal your personal love language affiliation.
+                    <br /> You will get 30 questions with two corresponding best-fit answer options.
+                    <br /> After all questions completed, you will see your results.
+                </div>
+            </div>
+        </div>
+        <div id="beginSegment" class="ui basic segment">
+            <div class="ui center aligned container">
+                <button id="beginTest" class="ui primary huge button">Begin test</button>
+            </div>
+        </div>
+        <div class="ui raised segment">
+            <div class="ui stackable container">
+                <div class="ui basic left aligned segment">
+                    <h2 class="ui header" style="font-style: italic">It's more meaningful to me when ...</h2>
+                </div>
+                <div class="ui container" style="margin-top: 0.5em">
+                    <div data-test-value="0" class="ui testoption left aligned segment">
+                        <p>... someone I love sends me a loving note/text/email for no special reason.</p>
+                    </div>
+                    <div data-test-value="1" class="ui testoption left aligned segment">
+                        <p>... I hug someone I love.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
