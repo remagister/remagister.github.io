@@ -10,8 +10,354 @@
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
     <title>5Languages</title>
 
+    <style>
+        .testoption {
+            cursor: pointer;
+        }
+    </style>
+
     <script>
         window.addEventListener("load", function () {
+
+            let test = [
+                { // 1
+                    q: "It's more meaningful to me when ...",
+                    a: [
+                        "... someone I love sends me a loving note/text/email for no special reason.",
+                        "... I hug someone I love."
+                    ],
+                    v: [
+                        "a", "e"
+                    ]
+                }, 
+                { // 2 
+                    a: [
+                        "... I can spend alone time with someone I love - just us.",
+                        "... someone I love does something practical to help me out."
+                    ],
+                    v: [
+                        "b", "d"
+                    ],
+                },
+                { // 3
+                    a: [
+                        "... someone I love gives me a little gift as a token of our love of concern for each other.",
+                        "... I get to spend uninterrupted leisure time with those I love."
+                    ],
+                    v: [
+                        "c", "b"
+                    ],
+                },
+                { // 4
+                    a: [
+                        "... someone I love does something unexpected for me to help me with a project.",
+                        "... I can share an innocent touch with someone I love."
+                    ],
+                    v: [
+                        "d", "e"
+                    ],
+                },
+                { // 5
+                    a: [
+                        "... someone I love puts their arm around me in public.",
+                        "... someone I love surprises me with a gift."
+                    ],
+                    v: [
+                        "e", "c"
+                    ],
+                },
+                { // 6
+                    a: [
+                        "... I'm around someone I love, even if we're not really doing anything.",
+                        "... I can be comfortable holding hands, high-fiving, or putting my arm around someone I love."
+                    ],
+                    v: [
+                        "b", "e"
+                    ],
+                },
+                { // 7
+                    a: [
+                        "... I receive a gift from someone I love.",
+                        "... I hear from someone I love that they love me."
+                    ],
+                    v: [
+                        "c", "a"
+                    ],
+                },
+                { // 8
+                    a: [
+                        "... I sit close to someone I love.",
+                        "... I am complimented by someone I love for no apparent reason."
+                    ],
+                    v: [
+                        "e", "a"
+                    ],
+                },
+                { // 9
+                    a: [
+                        "... I get the chance to just \"hang out\" with someone I love.",
+                        "... I unexpectedly get small gifts from someone I love."
+                    ],
+                    v: [
+                        "b", "c"
+                    ],
+                },
+                { // 10
+                    a: [
+                        "... I hear someone I love tell me, \"I'm proud of you\".",
+                        "... someone I love helps me with a task."
+                    ],
+                    v: [
+                        "a", "d"
+                    ],
+                },
+                { // 11
+                    a: [
+                        "... I get to do things with someone I love.",
+                        "... I hear supportive words from someone I love."
+                    ],
+                    v: [
+                        "b", "c"
+                    ],
+                },
+                { // 12
+                    a: [
+                        "... someone I love does things for me instead of just talking about doing nice things.",
+                        "... I feel connected to someone I love through a hug."
+                    ],
+                    v: [
+                        "d", "e"
+                    ],
+                },
+                { // 13
+                    a: [
+                        "... I hear praise from someone I love.",
+                        "... someone I love gives me something that shows they were really thinking about me."
+                    ],
+                    v: [
+                        "a", "c"
+                    ],
+                },
+                { // 14
+                    a: [
+                        "... I'm able to just be around someone I love.",
+                        "... I get a back rub from someone I love."
+                    ],
+                    v: [
+                        "b", "e"
+                    ],
+                },
+                { // 15
+                    a: [
+                        "... someone I love reacts positively to something I've accomplished.",
+                        "... someone I love does something for me that I know they don't particularly enjoy."
+                    ],
+                    v: [
+                        "a", "d"
+                    ],
+                },
+                { // 16
+                    a: [
+                        "... I'm able to be in close physical proximity to someone I love.",
+                        "... I sense someone I love showing interest in the things I care about."
+                    ],
+                    v: [
+                        "e", "b"
+                    ],
+                },
+                { // 17
+                    a: [
+                        "... someone I love works on special projects with me that I have to complete.",
+                        "... someone I love gives me an exciting gift."
+                    ],
+                    v: [
+                        "d", "c"
+                    ],
+                },
+                { // 18
+                    a: [
+                        "... I'm complimented by someone I love on my appearance.",
+                        "... someone I love takes the time to listen to me and really understand my feelings."
+                    ],
+                    v: [
+                        "a", "b"
+                    ],
+                },
+                { // 19
+                    a: [
+                        "... I can share a meaningful touch in public with someone I love.",
+                        "... someone I love offers to run errands on me."
+                    ],
+                    v: [
+                        "e", "d"
+                    ],
+                },
+                { // 20
+                    a: [
+                        "... someone I love does something special for me to help me out.",
+                        "... I get a gift that someone I love put through into choosing."
+                    ],
+                    v: [
+                        "d", "c"
+                    ],
+                },
+                { // 21
+                    a: [
+                        "... someone I love doesn't check their phone while we're talking with each other.",
+                        "... someone I love goes out of their way to do something that relieves pressure on me."
+                    ],
+                    v: [
+                        "b", "d"
+                    ],
+                },
+                { // 22
+                    a: [
+                        "... I can look forward to a holiday because I'll probably get a gift from someone I love.",
+                        "... I hear words \"I appreciate you\" from someone I love."
+                    ],
+                    v: [
+                        "c", "a"
+                    ],
+                },
+                { // 23
+                    a: [
+                        "... someone I love and haven't seen in a while thinks enough of me to give me a little gift.",
+                        "... someone I love takes care of something I'm responsible to do that I feel too stressed to do all the time."
+                    ],
+                    v: [
+                        "c", "d"
+                    ],
+                },
+                { // 24
+                    a: [
+                        "... someone I love doesn't interrupt me while I'm talking.",
+                        "... gift giving is an important part of relationship with someone I love."
+                    ],
+                    v: [
+                        "b", "c"
+                    ],
+                },
+                { // 25
+                    a: [
+                        "... someone I love helps me out when they know that I'm already tired.",
+                        "... I get to go somewhere while spending time with someone I love."
+                    ],
+                    v: [
+                        "d", "b"
+                    ],
+                },
+                { // 26
+                    a: [
+                        "... someone I love touches my arm or shoulder to show their care or concern.",
+                        "... someone I love gives me a little gift that they picked up in the course of their normal day."
+                    ],
+                    v: [
+                        "e", "c"
+                    ],
+                },
+                { // 27
+                    a: [
+                        "... someone I love says something encouraging to me.",
+                        "... I get to spend time in a shared activity or hobby with someone I love."
+                    ],
+                    v: [
+                        "a", "b"
+                    ],
+                },
+                { // 28
+                    a: [
+                        "... someone I love surprises me with a small token of their appreciation.",
+                        "... I'm touching someone I love frequently to express our friendsip."
+                    ],
+                    v: [
+                        "c", "e"
+                    ],
+                },
+                { // 29
+                    a: [
+                        "... someone I love helps me out - espeially if I know they're already busy.",
+                        "... I hear someone I love tell me that they appreciate me."
+                    ],
+                    v: [
+                        "d", "a"
+                    ],
+                },
+                { // 30
+                    a: [
+                        "... I get a hug from someone whom I haven't seen in a while.",
+                        "... I hear someone I love tell me how much I mean to him/her."
+                    ],
+                    v: [
+                        "e", "a"
+                    ],
+                },
+            ]
+
+            let resultMap = {
+                a: 0, b: 0, c: 0, d: 0, e: 0
+            };
+
+            let options = [
+                $("#testOption1"),
+                $("#testOption2")
+            ];
+            let texts = [
+                $("#testOption1Text"),
+                $("#testOption2Text")
+            ]
+            let buttonProceed = $("#buttonProceed");
+            let qTest = $("#testCaption");
+            let testBlock = $("#testBlock");
+            let chosen = -1;
+            let currentItem = -1;
+
+            function fillTestQuestion(entry) {
+                if (typeof entry.q === "string")
+                     qTest.text(entry.q);
+                entry.a.forEach(function (a, i) {
+                    options[i].text(a);
+                });
+            }
+
+            function disableChoice(item) {
+                item.removeClass("olive inverted");
+            }
+
+            function enableChoice(item) {
+                item.addClass("olive inverted");
+            }
+
+            function disableAll() {
+                options.forEach(function (val) {
+                    disableChoice(val);
+                });
+                chosen = -1;
+            }
+
+            function nextTestItem(fade) {
+                currentItem++;
+                if (fade) {
+                    testBlock.transition({
+                            animation: "fade",
+                            duration: "350ms",
+                            onComplete: function() {
+                                if (currentItem === test.length - 1) {
+                                    buttonProceed.text("Finish test");
+                                    buttonProceed.attr("data-test-final", "1");
+                                }
+                                fillTestQuestion(test[currentItem]);
+                                testBlock.transition("fade", "350ms");
+                            }
+                        })
+                } else {
+                    if (currentItem === test.length - 1) {
+                        buttonProceed.attr("data-test-final", "1");
+                        buttonProceed.text("Finish test");
+                    }
+                    fillTestQuestion(test[currentItem]);
+                }
+            }
+
             $(".message .close")
                 .on("click", function () {
                     $(this).closest(".message").transition("fade");
@@ -20,23 +366,58 @@
             $("#beginTest")
                 .on("click", function () {
                     $("#beginSegment")
-                        .transition("fade");
+                        .transition({
+                            animation: "fade",
+                            onComplete: function () {
+                                $("#testBlock")
+                                    .transition("fade");
+                            }
+                        });
+                    currentItem = -1;
+                    nextTestItem(false);
                 });
             $(".testoption")
-                .on("click", function() {
+                .on("click", function () {
                     let t = $(this);
-                    if (t.hasClass("inverted")) t.removeClass("olive inverted");
-                    else t.addClass("olive inverted");
+                    let myIndex = parseInt(t.attr("data-test-option"));
+                    if (chosen === -1) {
+                        enableChoice(t);
+                        chosen = myIndex;
+                        buttonProceed.removeClass("disabled");
+                        return;
+                    }
+                    if (chosen === myIndex) return;
+                    disableChoice(options[chosen]);
+                    enableChoice(t);
+                    chosen = myIndex;
                 });
 
+            $("#testBlock")
+                .on("blur", function () {
+                    if (chosen !== -1) {
+                        disableChoice(options[chosen]);
+                        chosen = -1;
+                    }
+                });
+
+            buttonProceed.on("click", function () {
+                if (buttonProceed.attr("data-test-final") === "1") {
+                    alert("Well done, you finished test!");
+                } else {
+                    let ct = test[currentItem];
+                    resultMap[ct.v[chosen]]++;
+                    ct.c = chosen;
+                    nextTestItem(true);
+                }
+            });
         });
     </script>
 </head>
 
 <body>
-    <h1 class="ui center aligned huge header" style="margin-top: 3em">5 Languages of Love homemade test</h1>
+    <h1 class="ui center aligned huge header" style="margin-top: 3em; margin-bottom: 1em">5 Languages of Love homemade test</h1>
     <div class="ui container">
-        <div class="ui horizontal divider">⚝</div>
+        <div class="ui horizontal divider" style="margin-bottom: 1em">⚝</div>
         <div class="ui icon info message">
             <i class="close icon"></i>
             <i class="ui question circle outline icon"></i>
@@ -56,18 +437,24 @@
                 <button id="beginTest" class="ui primary huge button">Begin test</button>
             </div>
         </div>
-        <div class="ui raised segment">
+        <div id="testBlock" class="ui testblock raised segment transition hidden">
             <div class="ui stackable container">
                 <div class="ui basic left aligned segment">
-                    <h2 class="ui header" style="font-style: italic">It's more meaningful to me when ...</h2>
+                    <h2 id="testCaption" class="ui header" style="font-style: italic">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</h2>
                 </div>
                 <div class="ui container" style="margin-top: 0.5em">
-                    <div data-test-value="0" class="ui testoption left aligned segment">
-                        <p>... someone I love sends me a loving note/text/email for no special reason.</p>
+                    <div id="testOption1" data-test-option="0" class="ui testoption left aligned segment">
+                        <p id="testOption1Text" class="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
                     </div>
-                    <div data-test-value="1" class="ui testoption left aligned segment">
-                        <p>... I hug someone I love.</p>
+                    <div id="testOption2" data-test-option="1" class="ui testoption left aligned segment">
+                        <p id="testOption2Text" class="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
                     </div>
+                </div>
+                <div class="ui center aligned container">
+                    <button id="buttonProceed" class="ui primary disabled button" style="margin-top: 1em">
+                        Next question
+                        <i class="icon angle right"></i>
+                    </button>
                 </div>
             </div>
         </div>
