@@ -293,6 +293,14 @@
                 },
             ]
 
+            let resultKey = {
+                a: "Words of Affirmation",
+                b: "Quality Time",
+                c: "Receiving Gifts",
+                d: "Acts of Service",
+                e: "Physical Touch"
+            }
+
             let resultMap = {
                 a: 0, b: 0, c: 0, d: 0, e: 0
             };
@@ -301,15 +309,37 @@
                 $("#testOption1"),
                 $("#testOption2")
             ];
-            let texts = [
+            let resultBars = [
+                $("#resultBar1"),
+                $("#resultBar2"),
+                $("#resultBar3"),
+                $("#resultBar4"),
+                $("#resultBar5"),
+            ]
+            let resultFields = [
+                $("#result1Name"),
+                $("#result2Name"),
+                $("#result3Name"),
+                $("#result4Name"),
+                $("#result5Name"),
+            ]
+            let Names = [
                 $("#testOption1Text"),
                 $("#testOption2Text")
             ]
             let buttonProceed = $("#buttonProceed");
             let qTest = $("#testCaption");
             let testBlock = $("#testBlock");
+            let resultBlock = $("#resultBlock");
             let chosen = -1;
             let currentItem = -1;
+            let testBusy = false;
+            let testProgress = $("#testQuestionsBar");
+            testProgress.progress({
+                total: test.length,
+                duration: "500ms",
+                value: 1
+            })
 
             function fillTestQuestion(entry) {
                 if (typeof entry.q === "string")
@@ -349,6 +379,7 @@
                             disableAll();
                             fillTestQuestion(test[currentItem]);
                             testBlock.transition("fade", "350ms");
+                            testBusy = false;
                         }
                     })
                 } else {
@@ -358,6 +389,7 @@
                     }
                     disableAll();
                     fillTestQuestion(test[currentItem]);
+                    testBusy = false;
                 }
             }
 
@@ -403,14 +435,52 @@
                     }
                 });
 
+            function displayResults() {
+                let resultPercents = [];
+                Object.getOwnPropertyNames(resultMap).forEach(function (key) {
+                    resultPercents.push({ type: resultKey[key], percent: resultMap[key] / test.length * 100 });
+                });
+                resultPercents.sort(function (a, b) { return a.percent < b.percent }); // sort descending
+                console.log("Results: " + JSON.stringify(resultPercents));
+                resultPercents.forEach(function (val, i) {
+                    resultFields[i].text(val.type);
+                });
+                testBlock.transition({
+                    animation: "fade",
+                    duration: "300ms",
+                    onComplete: function () {
+                        resultBlock.transition({
+                            animation: "fade", duration: "300ms", onComplete: function () {
+                                console.log("Setting progress bars...")
+                                resultBars.forEach(function (bar, i) {
+                                    console.log(bar.attr("id") + "...: " + resultPercents[i].percent + "%");
+                                    bar.progress("reset");
+                                    bar.progress({
+                                        precision: 2,
+                                        total: 100,
+                                        duration: "1s"
+                                    });
+                                    bar.progress("increment", resultPercents[i].percent);
+                                    testBusy = false;
+                                });
+                            }
+                        });
+                    }
+                })
+            }
+
             buttonProceed.on("click", function () {
-                if (buttonProceed.attr("data-test-final") === "1") {
-                    alert("Well done, you finished test!");
-                } else {
-                    let ct = test[currentItem];
-                    resultMap[ct.v[chosen]]++;
-                    ct.c = chosen;
-                    nextTestItem(true);
+                if (!testBusy) {
+                    testBusy = true;
+                    if (buttonProceed.attr("data-test-final") === "1") {
+                        displayResults();
+                    } else {
+                        let ct = test[currentItem];
+                        resultMap[ct.v[chosen]]++;
+                        ct.c = chosen;
+                        testProgress.progress("increment", 1);
+                        nextTestItem(true);
+                    }
                 }
             });
         });
@@ -418,7 +488,7 @@
 </head>
 
 <body>
-    <h1 class="ui center aligned huge header" style="margin-top: 3em; margin-bottom: 1em">"5 Languages of Love" homemade test</h1>
+    <h1 class="ui center aligned huge header" style="margin-top: 2.5em; margin-bottom: 1em">"5 Languages of Love" homemade test</h1>
     <div class="ui container">
         <div class="ui horizontal divider" style="margin-bottom: 1em">⚝</div>
         <div class="ui icon warning message">
@@ -429,8 +499,8 @@
                     This is a beta version of site.
                 </div>
                 <div class="content">
-                    You may experience some unwanted bugs, typos or other usual for beta versions stuff. <br />
-                    Thank you for your understanding.
+                    You may experience some unwanted bugs, typos or other usual for beta versions stuff.
+                    <br /> Thank you for your understanding.
                 </div>
             </div>
         </div>
@@ -438,9 +508,8 @@
             <div class="ui container">
                 <h2 class="ui header">What is this about?</h2>
                 <p style="font-size: 1.2em">
-                    This test will reveal your personal love language affiliation.
-                    You will get 30 questions with two corresponding best-fit answer options. 
-                    After all questions completed, you will see your results.
+                    This test will reveal your personal love language affiliation. You will get 30 questions with two corresponding best-fit
+                    answer options. After all questions completed, you will see your results.
                 </p>
             </div>
             <div class="ui center aligned container" style="margin-top: 2em">
@@ -460,19 +529,107 @@
                         <p id="testOption2Text" class="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
                     </div>
                 </div>
+                <div id="testQuestionsBar" class="ui blue progress resultbar">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
                 <div class="ui center aligned container">
-                    <button id="buttonProceed" class="ui primary disabled button" style="margin-top: 1em">
+                    <button id="buttonProceed" class="ui primary disabled button" style="margin-top: 0.5em">
                         Next question
                         <i class="icon angle right"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <div id="resultBlock" class="ui resultblock raised segment">
-            <h2 class="ui header left aligned">Congratulations! Your type: PETOOX</h2>
-
+        <div id="resultBlock" class="ui resultblock raised segment transition hidden">
+            <h3 class="ui horizontal divider huge header">
+                <i class="star outline icon"></i>
+                Your results
+            </h3>
+            <div class="ui grid" style="margin-top: 2em">
+                <div class="result row" style="padding: 0">
+                    <div class="four wide column">
+                        <div class="ui yellow inverted segment">
+                            <h3 id="result1Name">Lorem ipsum</h3>
+                        </div>
+                    </div>
+                    <div class="twelve wide column">
+                        <div class="ui basic segment">
+                            <div id="resultBar1" class="ui olive progress resultbar">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result row" style="padding: 0">
+                    <div class="four wide column">
+                        <div class="ui segment">
+                            <h3 id="result2Name">Lorem ipsum</h3>
+                        </div>
+                    </div>
+                    <div class="twelve wide column">
+                        <div class="ui basic segment">
+                            <div id="resultBar2" class="ui olive progress resultbar">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result row" style="padding: 0">
+                    <div class="four wide column">
+                        <div class="ui segment">
+                            <h3 id="result3Name">Lorem ipsum</h3>
+                        </div>
+                    </div>
+                    <div class="twelve wide column">
+                        <div class="ui basic segment">
+                            <div id="resultBar3" class="ui olive progress resultbar">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result row" style="padding: 0">
+                    <div class="four wide column">
+                        <div class="ui segment">
+                            <h3 id="result4Name">Lorem ipsum</h3>
+                        </div>
+                    </div>
+                    <div class="twelve wide column">
+                        <div class="ui basic segment">
+                            <div id="resultBar4" class="ui olive progress resultbar">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result row" style="padding: 0">
+                    <div class="four wide column">
+                        <div class="ui segment">
+                            <h3 id="result5Name">Lorem ipsum</h3>
+                        </div>
+                    </div>
+                    <div class="twelve wide column">
+                        <div class="ui basic segment">
+                            <div id="resultBar5" class="ui olive progress resultbar">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>
